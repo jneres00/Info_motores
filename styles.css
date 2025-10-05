@@ -1,82 +1,104 @@
+/* Estilo geral da página */
 body {
-
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 10px;
   text-align: center;
-  background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);  
-  background-repeat: no-repeat; /* impede a repetição */
-  background-size: cover; /* faz a imagem ocupar toda a tela */
-  background-position: center; /* centraliza a imagem */
+  background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
+/* Título principal */
 h1 {
-  color: #333;
+  color: #222;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
 }
 
+/* Barra de pesquisa */
 #barra_pesquisa {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+  align-items: center;       /* centraliza no mobile */
+  justify-content: center;   /* opcional: centraliza verticalmente */
 }
-#pesquisaInput, #botaoPesquisar {
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
 
 #barra_pesquisa input {
-  width: 60%;
+  width: 80%;                /* ocupa boa parte da tela no mobile */
   max-width: 300px;
-  padding: 10px;
+  padding: 12px;
   border: 2px solid #aaa;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#barra_pesquisa input:focus {
+  border-color: #333;
+  box-shadow: 0 0 5px rgba(51, 51, 51, 0.3);
 }
 
 #barra_pesquisa button {
-  padding: 10px 16px;
-  margin-left: 5px;
+  width: 50%;
+  max-width: 150px;
+  padding: 12px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: #333;
   color: white;
   cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
 #barra_pesquisa button:hover {
   background-color: #555;
+  transform: translateY(-1px);
 }
 
 #resultado {
-  padding: 10px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: left;
+  color: #333;
 }
 
-@media (min-width: 480px) {
-  #barra_pesquisa {
-    flex-direction: row;
-  }
-
-  #pesquisaInput {
-    flex: 1;
-  }
-
-  #botaoPesquisar {
-    width: auto;
-  }
-}
+/* Títulos dentro do resultado */
 h2 {
   text-align: center;
   color: #222;
+  margin-bottom: 10px;
 }
 
 h3 {
   margin-top: 20px;
   color: #444;
+}
+
+/* Layout para desktop */
+@media (min-width: 480px) {
+  #barra_pesquisa {
+    flex-direction: row;
+    justify-content: center; /* centraliza no desktop */
+  }
+
+  #pesquisaInput {
+    flex: 1;
+    width: auto;
+  }
+
+  #botaoPesquisar {
+    width: auto;
+    margin-left: 5px;
+  }
 }
