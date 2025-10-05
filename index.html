@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Info. Motores</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="car.png">
+  <link rel="icon" sizes="192x192" href="car.png">
+</head>
+<body>
+  <h1>Informações Técnicas - Motores</h1>
+
+  <div id="barra_pesquisa">
+    <input type="text" id="pesquisaInput" placeholder="Digite o nome do motor (ex: CHT Gasolina 1.0)">
+    <button id="botaoPesquisar">Pesquisar</button>
+  </div>
+
+  <div id="resultado"></div>
+
+  <script>
+    // Dados dos motores
+    const motores = [
+      {
+        nome: "CHT Gas 1.0",
+        diametro_cilindros: "70,30 mm",
+        curso: "64,20 mm",
+        folga_pistao_cilindro: "0,04 mm",
+        torques: {
+          capa_mancal: "60 N a 65 N (6,12 a 6,63 kgfm)",
+          capa_biela: "40 N a 45 N (4,08 a 4,59 kgfm)",
+          volante: "45 N a 50 N (4,59 a 5,10 kgfm)",
+          cabecote: "1ª Etapa: 50 N a 55 N (5,10 a 5,61 kgfm) | 2ª Etapa: 60 N a 65 N (6,12 a 6,63 kgfm)"
+        },
+        folga_valvulas: {
+          admissao: { frio: "0,15 mm" },
+          escape: { frio: "0,20 mm" }
+        }
+      },
+      {
+        nome: "CHT Gas 1.6",
+        diametro_cilindros: "77,00 mm",
+        curso: "83,50 mm",
+        folga_pistao_cilindro: "0,05 mm",
+        torques: {
+          capa_mancal: "60 N a 65 N (6,12 a 6,63 kgfm)",
+          capa_biela: "40 N a 45 N (4,08 a 4,59 kgfm)",
+          volante: "45 N a 50 N (4,59 a 5,10 kgfm)",
+          cabecote: "1ª Etapa: 50 N a 55 N (5,10 a 5,61 kgfm) | 2ª Etapa: 60 N a 65 N (6,12 a 6,63 kgfm)"
+        },
+        folga_valvulas: {
+          admissao: { frio: "0,20 mm", quente: "0,30 mm" },
+          escape: { frio: "0,25 mm", quente: "0,35 mm" }
+        }
+      },
+      {
+        nome: "CHT Alc 1.6",
+        diametro_cilindros: "77,00 mm",
+        curso: "83,50 mm",
+        folga_pistao_cilindro: "0,05 mm",
+        torques: {
+          capa_mancal: "60 N a 65 N (6,12 a 6,63 kgfm)",
+          capa_biela: "40 N a 45 N (4,08 a 4,59 kgfm)",
+          volante: "45 N a 50 N (4,59 a 5,10 kgfm)",
+          cabecote: "1ª Etapa: 50 N a 55 N (5,10 a 5,61 kgfm) | 2ª Etapa: 60 N a 65 N (6,12 a 6,63 kgfm)"
+        },
+        folga_valvulas: {
+          admissao: { frio: "0,20 mm", quente: "0,30 mm" },
+          escape: { frio: "0,25 mm", quente: "0,35 mm" }
+        }
+      }
+    ];
+
+    const input = document.getElementById('pesquisaInput');
+    const botao = document.getElementById('botaoPesquisar');
+    const resultado = document.getElementById('resultado');
+
+    function pesquisarMotor() {
+      const termo = input.value.trim().toLowerCase();
+      resultado.innerHTML = '';
+
+      if (!termo) {
+        resultado.innerHTML = '<p>Digite o nome ou parte do nome do motor para pesquisar.</p>';
+        return;
+      }
+
+      const encontrado = motores.find(m => m.nome.toLowerCase().includes(termo));
+
+      if (encontrado) {
+        resultado.innerHTML = `
+          <h2>${encontrado.nome}</h2>
+          <p><strong>Ø dos cilindros:</strong> ${encontrado.diametro_cilindros}</p>
+          <p><strong>Curso:</strong> ${encontrado.curso}</p>
+          <p><strong>Folga Pistão/Cilindro:</strong> ${encontrado.folga_pistao_cilindro}</p>
+
+          <h3>Torques Recomendados</h3>
+          <p><strong>Capa do Mancal:</strong> ${encontrado.torques.capa_mancal}</p>
+          <p><strong>Capa da Biela:</strong> ${encontrado.torques.capa_biela}</p>
+          <p><strong>Volante:</strong> ${encontrado.torques.volante}</p>
+          <p><strong>Cabeçote:</strong> ${encontrado.torques.cabecote}</p>
+
+          <h3>Folga das Válvulas</h3>
+          <p><strong>Admissão:</strong> Frio: ${encontrado.folga_valvulas.admissao.frio || '-'} | Quente: ${encontrado.folga_valvulas.admissao.quente || '-'}</p>
+          <p><strong>Escape:</strong> Frio: ${encontrado.folga_valvulas.escape.frio || '-'} | Quente: ${encontrado.folga_valvulas.escape.quente || '-'}</p>
+        `;
+      } else {
+        resultado.innerHTML = '<p>Nenhum motor encontrado. Verifique o nome digitado.</p>';
+      }
+    }
+
+    botao.addEventListener('click', pesquisarMotor);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') pesquisarMotor();
+    });
+
+    // Registro do Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registrado!', reg))
+          .catch(err => console.log('Erro ao registrar Service Worker:', err));
+      });
+    }
+  </script>
+</body>
+</html>
